@@ -11,6 +11,8 @@ public class CharacterView : MonoBehaviour
     private const string IsAirborne = "IsAirborne";
     private const string IsMovement = "IsMovement";
     private const string IsWalking = "IsWalking";
+    private const string IsWalled = "IsWalled";
+    private const string IsSlideOnWall = "IsSlideOnWall";
 
     private Animator _animator;
 
@@ -39,5 +41,11 @@ public class CharacterView : MonoBehaviour
 
     public void StartWalking() => _animator.SetBool(IsWalking, true);
     public void StopWalking() => _animator.SetBool(IsWalking, false);
-    
+
+    public void StartWalled() => _animator.SetBool(IsWalled, true);
+    public void StopWalled() => _animator.SetBool(IsWalled, false);
+
+    public void StartSlideOnWall() => _animator.SetBool(IsSlideOnWall, true);
+    public void StopSlideOnWall() => _animator.SetBool(IsSlideOnWall, false);
+
 }

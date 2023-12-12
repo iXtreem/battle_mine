@@ -7,6 +7,7 @@ public class Character : MonoBehaviour
 {
     [SerializeField] private CharacterView _view;
     [SerializeField] private GroundChecker _groundChecker;
+    [SerializeField] private WallChecker _wallChecker;
     [SerializeField] private CharacterConfig _config;
 
     [SerializeField] private Rigidbody2D _rigidbody;
@@ -17,6 +18,7 @@ public class Character : MonoBehaviour
     public CharacterView View => _view;
     public CharacterConfig Config => _config;
     public GroundChecker GroundChecker => _groundChecker;
+    public WallChecker WallChecker => _wallChecker;
 
     private void OnValidate()
     {

@@ -66,5 +66,5 @@ public class MovementState : IState
     }
 
     private Vector2 GetConvertedVecloity() => new Vector2(Data.XVelocity, Rigidbody.velocity.y);
-    private float ReadHorizontalInput() => Input.GetAxis(Horizontal);
+    protected virtual float ReadHorizontalInput() => Input.GetAxis(Horizontal);
 }
