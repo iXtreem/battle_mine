@@ -5,12 +5,14 @@ public class SlideOnWallState : TouchedWallState
     private readonly GroundChecker _groundChecker;
     private readonly WallChecker _wallChecker;
     private readonly SlideWallStateConfig _config;
+    private readonly JumpingStateConfig _configJumpingState;
 
     public SlideOnWallState(IStateSwitcher stateSwitcher, StateMachineData data, Character character) : base(stateSwitcher, data, character)
     {
         _groundChecker = character.GroundChecker;
         _wallChecker = character.WallChecker;
         _config = character.Config.SlideWallStateConfig;
+        _configJumpingState = character.Config.AirborneStateConfig.JumpingStateConfig;
     }
 
     public override void Enter()
@@ -40,9 +42,9 @@ public class SlideOnWallState : TouchedWallState
 
         if (_wallChecker.IsTouchesWall)
         {
-            if (Input.GetKey(KeyCode.Space))
+            if (Input.GetKey(KeyCode.Space) && Data.TimeLastJump >= _configJumpingState.CooldownJumping)
             {
-                StateSwitcher.SwitchState<JumpingOffWallState>();
+                StateSwitcher.SwitchState<JumpingState>();
             }
         }
         else if (Rigidbody.velocity.y <= 0)

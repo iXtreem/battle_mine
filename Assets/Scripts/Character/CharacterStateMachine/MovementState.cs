@@ -41,6 +41,7 @@ public class MovementState : IState
 
     public virtual void Update()
     {
+        Data.TimeLastJump += Time.deltaTime;
     }
 
     public virtual void FixedUpdate() 

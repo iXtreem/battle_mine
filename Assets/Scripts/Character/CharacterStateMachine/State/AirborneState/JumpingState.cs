@@ -17,13 +17,13 @@ public class JumpingState : AirborneState
         View.StartJumping();
 
         Data.Speed = _config.Speed;
+        Data.TimeLastJump = 0;
 
         Vector2 JumpDirection;
 
         if (_wallChecker.IsTouchesWall)
         {
             JumpDirection = new Vector2(_wallChecker._isTouchesLeftWall ? 5 : -5, _config.JumpingStateConfig.StartYVelocity);
-            Debug.Log(JumpDirection);
         }
         else
         {
@@ -44,12 +44,17 @@ public class JumpingState : AirborneState
     {
         base.Update();
 
-        /*if (_wallChecker.IsTouchesWall)
+        if (_wallChecker.IsTouchesWall && CanSlideOnWall())
         {
             StateSwitcher.SwitchState<SlideOnWallState>();
-        }*/
+        }
 
         if (Rigidbody.velocity.y <= 0)
             StateSwitcher.SwitchState<FallingState>();
+    }
+
+    private bool CanSlideOnWall()
+    {
+        return Data.TimeLastJump > _config.JumpingStateConfig.MinDirectionJumping;
     }
 }

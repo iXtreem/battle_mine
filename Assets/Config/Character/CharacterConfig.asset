@@ -18,7 +18,9 @@ MonoBehaviour:
     _jumpingStateConfig:
       _maxHeight: 4
       _timeToReachMaxHeight: 1
-    _speed: 2
+      _cooldownJumping: 1
+      _minDirectionJumping: 1
+    _speed: 4
   _walkingStateConfig:
     _speed: 2
   _slideWallStateConfig:

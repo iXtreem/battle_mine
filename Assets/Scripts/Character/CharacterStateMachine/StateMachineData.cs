@@ -30,4 +30,7 @@ public class StateMachineData
             _speed = value;
         }
     }
+
+    public float TimeLastJump { get; set; }
+
 }
