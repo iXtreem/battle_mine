@@ -9,10 +9,11 @@ public class Character : MonoBehaviour
     [SerializeField] private GroundChecker _groundChecker;
     [SerializeField] private WallChecker _wallChecker;
     [SerializeField] private CharacterConfig _config;
-
+    [SerializeField] private Transform _handTransform;
     [SerializeField] private Rigidbody2D _rigidbody;
 
     private CharacterStateMachine _stateMachine;
+    private HandController _handController;
 
     public Rigidbody2D Rigidbody => _rigidbody;
     public CharacterView View => _view;
@@ -33,12 +34,15 @@ public class Character : MonoBehaviour
         _view = _view != null ? _view : GetComponent<CharacterView>();
 
         _stateMachine = new CharacterStateMachine(this);
+        _handController = new HandController(Camera.main, transform, _handTransform);
     }
 
     private void Update()
     {
         _stateMachine.HandleInput();
         _stateMachine.Update();
+
+        _handController.Update();
     }
 
     private void FixedUpdate()

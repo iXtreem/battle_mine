@@ -3,21 +3,22 @@ using System.Linq;
 
 public class CharacterStateMachine : IStateSwitcher
 {
+    public readonly StateMachineData Data;
     private List<IState> _states;
     private IState _currentState;
-
+    
     public CharacterStateMachine(Character character)
     {
-        StateMachineData data = new StateMachineData();
+        Data = new StateMachineData();
 
         _states = new List<IState>()
         {
-            new IdlingState(this, data, character),
-            new WalkingState(this, data, character),
-            new RunningState(this, data, character),
-            new JumpingState(this, data, character),
-            new FallingState(this, data, character),
-            new SlideOnWallState(this,data, character),
+            new IdlingState(this, Data, character),
+            new WalkingState(this, Data, character),
+            new RunningState(this, Data, character),
+            new JumpingState(this, Data, character),
+            new FallingState(this, Data, character),
+            new SlideOnWallState(this, Data, character),
         };
 
         _currentState = _states[0];

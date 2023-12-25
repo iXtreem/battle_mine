@@ -1,4 +1,4 @@
-﻿public class TouchedWallState : MovementState
+﻿public abstract class TouchedWallState : MovementState
 {
     public TouchedWallState(IStateSwitcher stateSwitcher, StateMachineData data, Character character) : base(stateSwitcher, data, character){ }
 

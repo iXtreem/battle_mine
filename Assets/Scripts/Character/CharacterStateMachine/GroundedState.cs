@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class GroundedState : MovementState
+public abstract class GroundedState : MovementState
 {
     private GroundChecker _groundChecker;
 

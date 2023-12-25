@@ -1,4 +1,4 @@
-﻿public class AirborneState : MovementState
+﻿public abstract class AirborneState : MovementState
 {
     private readonly AirborneStateConfig _config;
 

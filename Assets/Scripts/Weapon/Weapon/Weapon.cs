@@ -7,8 +7,6 @@ public class Weapon : MonoBehaviour, IWeapon, IWeaponInfo
 
     private WeaponController _controller;
     public Transform FirePoint => _firePoint;
-    public Transform Transform => transform;
-    public Rigidbody2D Rigidbody2D => throw new System.NotImplementedException();
     public GameObject GameObject => transform.gameObject;
 
     private void Start()

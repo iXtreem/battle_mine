@@ -31,8 +31,8 @@ public class BaseBulletMovement : IMover
     private Quaternion GetRotation()
     {
         float angle = Mathf.Atan2(_bullet.Rigidbody2D.velocity.y, _bullet.Rigidbody2D.velocity.x) * Mathf.Rad2Deg;
-        angle -= 90;
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         return rotation;
     }
 

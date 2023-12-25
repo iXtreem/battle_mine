@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MovementState : IState
+public abstract class MovementState : IState
 {
     protected readonly IStateSwitcher StateSwitcher;
     protected readonly StateMachineData Data;
@@ -44,11 +44,16 @@ public class MovementState : IState
         Data.TimeLastJump += Time.deltaTime;
     }
 
-    public virtual void FixedUpdate() 
+    public virtual void FixedUpdate()
     {
         Vector2 velocity = GetConvertedVecloity();
 
         Rigidbody.velocity = velocity;
+        Rotate(velocity);
+    }
+
+    private void Rotate(Vector2 velocity)
+    {
         _character.transform.rotation = GetRotationFrom(velocity);
     }
 

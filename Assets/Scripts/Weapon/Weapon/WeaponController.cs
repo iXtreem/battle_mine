@@ -26,7 +26,7 @@ public abstract class WeaponController
 
             if (_info.GameObject.activeSelf)
             {
-                GameObject.Instantiate(_bulletPrefab[0].gameObject, _info.FirePoint.position, _info.FirePoint.rotation);
+                GameObject.Instantiate(_bulletPrefab[0].gameObject, _info.FirePoint.position, _info.GameObject.transform.rotation);
                 _data.BulletCount--;
             }
         }
