@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a37222ca77af6654188bb40a5312c411, type: 3}
   m_Name: BulletConfig
   m_EditorClassIdentifier: 
-  _velocity: 15
+  _velocity: 10
   _lifeTime: 5
   _minAngle: 0
   _maxAngle: 0
