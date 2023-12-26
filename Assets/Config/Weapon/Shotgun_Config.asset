@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68fd21a196922664a951e86f532dbd0f, type: 3}
+  m_Name: Shotgun_Config
+  m_EditorClassIdentifier: 
+  _id: ShotGun
+  _sprite: {fileID: 21300000, guid: 6d17346af3d9e5d45abf2cbe196c3b37, type: 3}
+  _rateFire: 5
+  _reloadTime: 4
+  _bulletList:
+  - {fileID: 1392793661179892334, guid: 8e1173d34a8455c43b9c26160818da57, type: 3}
+  _type: 0
+  _weaponShootType: 0
+  _maxBulletCount: 50
+  "_ammo\u0421apacity": 2

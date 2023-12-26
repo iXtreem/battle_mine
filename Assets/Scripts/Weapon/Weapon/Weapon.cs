@@ -1,33 +1,46 @@
+
 using UnityEngine;
 
-public class Weapon : MonoBehaviour, IWeapon, IWeaponInfo
+namespace Assets.Weapon
 {
-    [SerializeField] private WeaponConfig _config;
-    [SerializeField] private Transform _firePoint;
-
-    private WeaponController _controller;
-    public Transform FirePoint => _firePoint;
-    public GameObject GameObject => transform.gameObject;
-
-    private void Start()
+    internal class Weapon 
     {
-        _controller = new BaseWeaponController(this, _config);
-    }
+        internal WeaponControllerData Data => _data;
+        internal WeaponView View => _view;
+        internal WeaponConfig Config => _config;
 
-    private void Update()
-    {
-        _controller?.UpdateWeapon();
-        Shoot();//TODO
-    }
+        private WeaponConfig _config;
+        private WeaponView _view;
+        private WeaponController _controller;
+        private WeaponControllerData _data;
+        internal Weapon(WeaponView view, WeaponConfig weaponConfig)
+        {
+            _config = weaponConfig;
+            _view = view;
 
-    public void Shoot() 
-    {
-        _controller?.Shoot();
-    }
-}
+            _controller = GetWeaponController();
+            _data = new WeaponControllerData(weaponConfig);
+        }
 
-public enum WeaponType
-{
-    Base,
-    Super,
+        private WeaponController GetWeaponController()
+        {
+            if (_config.WeaponShootType == WeaponShootType.SingleShots)
+             return new PistolWeaponController(this, _config);
+            else
+                return new BaseWeaponController(this, _config);
+        }
+
+        public void HandleInput()
+        {
+            _controller.HandleInput();
+
+            if (Input.GetKeyDown(KeyCode.R)) 
+            {
+                _controller.ReloadWeapon();
+            }
+        }
+        
+        public void UpdateWeapon() => _controller.UpdateWeapon();
+        public void AddBullet() => _controller.AddBullet();
+    }
 }

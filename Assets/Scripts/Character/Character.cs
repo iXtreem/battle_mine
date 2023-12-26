@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Weapon;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(CapsuleCollider2D))]
@@ -11,15 +12,27 @@ public class Character : MonoBehaviour
     [SerializeField] private CharacterConfig _config;
     [SerializeField] private Transform _handTransform;
     [SerializeField] private Rigidbody2D _rigidbody;
+    [SerializeField] private WeaponView _weaponView;
 
     private CharacterStateMachine _stateMachine;
     private HandController _handController;
-
+    private WeaponInventory _weaponInventory;
     public Rigidbody2D Rigidbody => _rigidbody;
     public CharacterView View => _view;
     public CharacterConfig Config => _config;
     public GroundChecker GroundChecker => _groundChecker;
     public WallChecker WallChecker => _wallChecker;
+
+    public void SetWeapon(WeaponConfig weaponConfig) 
+    {
+        if (!_weaponInventory.TryAddWeapon(weaponConfig))
+        {
+            if (_weaponInventory.TryGetWeapon(weaponConfig.ID, out Weapon weapon)) 
+            {
+                weapon.AddBullet();
+            }
+        }
+    }
 
     private void OnValidate()
     {
@@ -35,13 +48,15 @@ public class Character : MonoBehaviour
 
         _stateMachine = new CharacterStateMachine(this);
         _handController = new HandController(Camera.main, transform, _handTransform);
+        _weaponInventory = new WeaponInventory(_weaponView);
     }
 
     private void Update()
     {
+        _weaponInventory.HandleInput();
         _stateMachine.HandleInput();
         _stateMachine.Update();
-
+        _weaponInventory.Update();
         _handController.Update();
     }
 

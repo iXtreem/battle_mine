@@ -1,4 +1,8 @@
 ﻿internal interface IWeapon
 {
-    void Shoot();
+    void Enter();
+    void Exit();
+    void HandleInput();
+    void Update();
+    void FixedUpdate();
 }

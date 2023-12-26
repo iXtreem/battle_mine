@@ -1,39 +1,79 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class WeaponController
+namespace Assets.Weapon
 {
-    private readonly IWeaponInfo _info; 
-    private readonly List<Bullet> _bulletPrefab;
-    
-    private WeaponControllerData _data;
-
-    public WeaponController(IWeaponInfo info, WeaponConfig weaponConfig)
+    internal abstract class WeaponController
     {
-        _info = info;
-        _bulletPrefab = new List<Bullet>(weaponConfig.BulletList);
-        _data = new WeaponControllerData(weaponConfig);
-    }
+        protected WeaponControllerData Data => _weapon.Data;
 
-    protected bool ShootIsReady() => _data.Time <= 0;
-    protected bool WeaponIsEmpty => _data.BulletCount == 0;
+        private readonly Weapon _weapon;
+        private readonly List<Bullet> _bulletPrefab;
 
-    public virtual void Shoot()
-    {
-        if (ShootIsReady() && !WeaponIsEmpty)
+        internal WeaponController(Weapon weapon, WeaponConfig weaponConfig)
         {
-            _data.Time = _data.TimeShoot;
+            _weapon = weapon;
+            _bulletPrefab = new List<Bullet>(weaponConfig.BulletList);
+        }
 
-            if (_info.GameObject.activeSelf)
+        public virtual void HandleInput() 
+        {
+        }
+
+        public virtual void UpdateWeapon()
+        {
+            Data.TimeLastShot -= Time.deltaTime;
+        }
+
+        protected bool MagazineIsEmpty => Data.CurrentMagazineCapacity == 0;
+        protected bool ShootIsReady() => Data.TimeLastShot <= 0; 
+        protected bool CanShoot() => ShootIsReady() && !MagazineIsEmpty && !Data.IsReloading;
+
+        public virtual void Shoot()
+        {
+            if (CanShoot())
             {
-                GameObject.Instantiate(_bulletPrefab[0].gameObject, _info.FirePoint.position, _info.GameObject.transform.rotation);
-                _data.BulletCount--;
+                Data.TimeLastShot = Data.TimeShoot;
+
+                GameObject.Instantiate(_bulletPrefab[0].gameObject, _weapon.View.FirePoint.position, _weapon.View.GameObject.transform.rotation);
+                Data.CurrentMagazineCapacity--;
             }
         }
-    }
 
-    public virtual void UpdateWeapon()
-    {
-        _data.Time -= Time.deltaTime;
+        public void AddBullet()
+        {
+            Data.BulletCount += Data.AmmoÑapacity * 2;
+        }
+
+
+        public void ReloadWeapon()
+        {
+            Data.IsReloading = true;
+            CoroutineController.StartCoroutine(ReloadingCoroutine(()=> Data.IsReloading = false));
+            if (Data.CurrentMagazineCapacity != Data.AmmoÑapacity)
+            {
+                int necessaryRoundsLoadMagazine = Data.AmmoÑapacity - Data.CurrentMagazineCapacity;
+
+                if (Data.BulletCount >= necessaryRoundsLoadMagazine)
+                {
+                    Data.CurrentMagazineCapacity = Data.AmmoÑapacity;
+                    Data.BulletCount -= necessaryRoundsLoadMagazine;
+                }
+                else
+                {
+                    Data.CurrentMagazineCapacity = Data.BulletCount;
+                    Data.BulletCount -= Data.BulletCount;
+                }
+            }
+        }
+
+        private IEnumerator ReloadingCoroutine(Action callback) 
+        {
+            yield return new WaitForSeconds(Data.TimeReloading);
+
+            callback?.Invoke();
+        }
     }
 }

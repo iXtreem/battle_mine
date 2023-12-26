@@ -1,7 +1,22 @@
-﻿public class BaseWeaponController : WeaponController
+﻿using UnityEngine;
+
+namespace Assets.Weapon
 {
-    public BaseWeaponController(IWeaponInfo info, WeaponConfig weaponConfig) : base(info, weaponConfig)
+    internal class BaseWeaponController : WeaponController
     {
+        public BaseWeaponController(Weapon weapon, WeaponConfig weaponConfig) : base(weapon, weaponConfig)
+        {
+
+        }
+
+        public override void HandleInput()
+        {
+            base.HandleInput();
+
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                Shoot();
+            }
+        }
     }
 }
-
